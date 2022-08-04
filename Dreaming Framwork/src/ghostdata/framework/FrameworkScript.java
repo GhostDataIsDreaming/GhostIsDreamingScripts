@@ -1,8 +1,8 @@
 package ghostdata.framework;
 
+import ghostdata.framework.chat.ChatListener;
 import ghostdata.framework.chat.listeners.*;
 import org.dreambot.api.script.AbstractScript;
-import org.dreambot.api.script.listener.ChatListener;
 import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.wrappers.widgets.message.Message;
 
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FrameworkScript extends AbstractScript implements ChatListener {
+public abstract class FrameworkScript extends AbstractScript implements org.dreambot.api.script.listener.ChatListener {
 
     private final List<ChatListener> chatListeners = new ArrayList<>();
     private final List<PaintListener> paintListeners = new ArrayList<>();
@@ -19,7 +19,7 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         chatListeners.add(listener);
     }
 
-    public final void addPainListener(PaintListener listener) {
+    public final void addPaintListener(PaintListener listener) {
         paintListeners.add(listener);
     }
 
@@ -28,15 +28,15 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof AutoMessageChatListener)
-                .forEach((l) -> l.onAutoMessage(message));
+                .forEach((l) -> ((AutoMessageChatListener) l).onAutoMessage(message));
     }
 
     @Override
     public final void onPrivateInfoMessage(Message message) {
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
-                .filter(chatListener -> chatListener instanceof AutoMessageChatListener)
-                .forEach((l) -> l.onAutoMessage(message));
+                .filter(chatListener -> chatListener instanceof PrivateInfoMessageChatListener)
+                .forEach((l) -> ((PrivateInfoMessageChatListener) l).onPrivateInfoMessage(message));
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof ClanMessageChatListener)
-                .forEach((l) -> l.onClanMessage(message));
+                .forEach((l) -> ((ClanMessageChatListener) l).onClanMessage(message));
     }
 
     @Override
@@ -52,7 +52,7 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof MessageChatListener)
-                .forEach((l) -> l.onMessage(message));
+                .forEach((l) -> ((MessageChatListener) l).onMessage(message));
     }
 
     @Override
@@ -60,15 +60,15 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof GameMessageChatListener)
-                .forEach((l) -> l.onGameMessage(message));
+                .forEach((l) -> ((GameMessageChatListener) l).onGameMessage(message));
     }
 
     @Override
     public final void onPlayerMessage(Message message) {
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
-                .filter(chatListener -> chatListener instanceof AutoMessageChatListener)
-                .forEach((l) -> l.onAutoMessage(message));
+                .filter(chatListener -> chatListener instanceof PlayerMessageChatListener)
+                .forEach((l) -> ((PlayerMessageChatListener) l).onPlayerMessage(message));
     }
 
     @Override
@@ -76,7 +76,7 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof TradeMessageChatListener)
-                .forEach((l) -> l.onTradeMessage(message));
+                .forEach((l) -> ((TradeMessageChatListener) l).onTradeMessage(message));
     }
 
     @Override
@@ -84,15 +84,15 @@ public abstract class FrameworkScript extends AbstractScript implements ChatList
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
                 .filter(chatListener -> chatListener instanceof PrivateMessageChatListener)
-                .forEach((l) -> l.onPrivateInMessage(message));
+                .forEach((l) -> ((PrivateMessageChatListener) l).onPrivateInMessage(message));
     }
 
     @Override
     public final void onPrivateOutMessage(Message message) {
         if (chatListeners.isEmpty()) return;
         chatListeners.stream()
-                .filter(chatListener -> chatListener instanceof AutoMessageChatListener)
-                .forEach((l) -> l.onPrivateOutMessage(message));
+                .filter(chatListener -> chatListener instanceof PrivateMessageChatListener)
+                .forEach((l) -> ((PrivateMessageChatListener) l).onPrivateOutMessage(message));
     }
 
     @Override
