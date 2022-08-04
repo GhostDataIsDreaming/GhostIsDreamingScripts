@@ -1,6 +1,7 @@
 package ghostdata.framwork.testing.nodes;
 
 import ghostdata.framework.behaviortree.Node;
+import ghostdata.framework.chat.listeners.GameMessageChatListener;
 import org.dreambot.api.methods.Animations;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
@@ -10,18 +11,22 @@ import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.item.GroundItems;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.utilities.impl.Condition;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.items.GroundItem;
 import org.dreambot.api.wrappers.items.Item;
+import org.dreambot.api.wrappers.widgets.message.Message;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FiremakeNode implements Node {
+public class FiremakeNode implements Node, PaintListener, GameMessageChatListener {
 
     static Random R = new Random();
 
@@ -36,6 +41,9 @@ public class FiremakeNode implements Node {
     protected List<Tile> fireTiles = new ArrayList<>();
 
     private boolean quick = false;
+
+    boolean makePlayerMove = false;
+
     public FiremakeNode(boolean pickupAshes) {
         this.pickupAshes = pickupAshes;
     }
@@ -51,11 +59,15 @@ public class FiremakeNode implements Node {
 
     @Override
     public Object tick() {
-        if (isFireUnderPlayer()) {
-            Tile tile = Players.localPlayer().getTile().getArea(1).getRandomTile();
-            Walking.walk(tile);
+        if (isFireUnderPlayer() || makePlayerMove) {
+            Tile emptyTile = getNonFireTile(2, 5, 5);
+            if (emptyTile == null) emptyTile = Players.localPlayer().getTile().getArea(5).getRandomTile();
+
+            Walking.walk(emptyTile);
+            makePlayerMove = false;
+            Tile finalEmptyTile = emptyTile;
             return (Condition) () -> {
-                return !Players.localPlayer().isMoving() || Players.localPlayer().getTile().equals(tile);
+                return !Players.localPlayer().isMoving() || Players.localPlayer().getTile().equals(finalEmptyTile);
             };
         }
 
@@ -129,11 +141,54 @@ public class FiremakeNode implements Node {
         return closest != null && closest.getTile().equals(Players.localPlayer().getTile());
     }
 
+    public Tile getNonFireTile(int searchArea, int tries, int resets) {
+        final int _tries = tries;
+
+        Area area = Players.localPlayer().getTile().getArea(searchArea);
+        Tile tile = null;
+
+        while (true) {
+            if (tries-- == 0) {
+                tries = _tries;
+                area = Players.localPlayer().getTile().getArea(++searchArea);
+            }
+
+            tile = area.getRandomTile();
+            GameObject fire = GameObjects.getTopObjectOnTile(tile);
+
+            if (fire != null && fire.getName().equals("Fire")) {
+                break;
+            }
+
+            if (resets-- <= 0) {
+                return null;
+            }
+        }
+
+        return tile;
+    }
+
     public boolean isFiremaking() {
         return Players.localPlayer().getAnimation() == Animations.FIREMAKING;
     }
 
     public List<Tile> getFireTiles() {
         return this.fireTiles;
+    }
+
+    @Override
+    public void onPaint(Graphics graphics) {
+        this.fireTiles.forEach((t) -> {
+            if (Map.isVisible(t)) {
+                graphics.drawPolygon(t.getPolygon());
+            }
+        });
+    }
+
+    @Override
+    public void onGameMessage(Message message) {
+        if (message.getMessage().equals("You can't light a fire here.")) {
+            this.makePlayerMove = true;
+        }
     }
 }

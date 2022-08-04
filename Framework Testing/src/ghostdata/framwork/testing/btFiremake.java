@@ -1,5 +1,6 @@
 package ghostdata.framwork.testing;
 
+import ghostdata.framework.FrameworkScript;
 import ghostdata.framework.behaviortree.BTree;
 import ghostdata.framework.behaviortree.premade.WalkToArea;
 import ghostdata.framework.behaviortree.premade.WithdrawSelectedItem;
@@ -16,7 +17,7 @@ import java.awt.*;
 
 
 @ScriptManifest(category = Category.FIREMAKING, name = "btFiremake", author = "GhostData", version = 0.0)
-public class btFiremake extends AbstractScript {
+public class btFiremake extends FrameworkScript {
     public static BTree btTree;
 
     static Area GRAND_EXCHANGE = new Area(3142, 3512, 3184, 3470);;
@@ -31,6 +32,10 @@ public class btFiremake extends AbstractScript {
     @Override
     public int onLoop() {
         if (!btTree.hasBranches()) {
+            firemakeNode = new FiremakeNode(false);
+            this.addChatListener(firemakeNode);
+            this.addPaintListener(firemakeNode);
+
             btTree.addNode(new WalkToArea(GRAND_EXCHANGE) {
                 @Override
                 public boolean isValid() {
@@ -52,22 +57,10 @@ public class btFiremake extends AbstractScript {
                 }
             });
 
-            btTree.addNode(firemakeNode = new FiremakeNode(true));
+            btTree.addNode(firemakeNode);
             return btTree.defaultSleepTimer();
         }
 
-
         return btTree.tick();
-    }
-
-    @Override
-    public void onPaint(Graphics graphics) {
-        if (firemakeNode != null && firemakeNode.getFireTiles() != null) {
-            firemakeNode.getFireTiles().forEach((t) -> {
-                if (Map.isVisible(t)) {
-                    graphics.drawPolygon(t.getPolygon());
-                }
-            });
-        }
     }
 }
