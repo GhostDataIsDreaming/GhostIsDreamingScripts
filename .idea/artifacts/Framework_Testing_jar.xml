@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Framework Testing:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Framework_Testing_jar</output-path>
+    <root id="archive" name="Framework Testing.jar">
+      <element id="module-output" name="Framework Testing" />
+      <element id="module-output" name="Dreaming Framwork" />
+    </root>
+  </artifact>
+</component>

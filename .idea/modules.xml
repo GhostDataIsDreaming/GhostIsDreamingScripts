@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Dreaming Framwork/Dreaming Framwork.iml" filepath="$PROJECT_DIR$/Dreaming Framwork/Dreaming Framwork.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Framework Testing/Framework Testing.iml" filepath="$PROJECT_DIR$/Framework Testing/Framework Testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/GhostPublicScripts.iml" filepath="$PROJECT_DIR$/GhostPublicScripts.iml" />
       <module fileurl="file://$PROJECT_DIR$/Live Scripting/Live Scripting.iml" filepath="$PROJECT_DIR$/Live Scripting/Live Scripting.iml" />
     </modules>
