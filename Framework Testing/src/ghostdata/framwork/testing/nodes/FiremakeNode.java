@@ -1,7 +1,6 @@
 package ghostdata.framwork.testing.nodes;
 
 import ghostdata.framework.behaviortree.Node;
-import ghostdata.framework.chat.listeners.GameMessageChatListener;
 import org.dreambot.api.methods.Animations;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
@@ -14,6 +13,7 @@ import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.script.listener.ChatListener;
 import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.utilities.impl.Condition;
 import org.dreambot.api.wrappers.interactive.GameObject;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FiremakeNode implements Node, PaintListener, GameMessageChatListener {
+public class FiremakeNode implements Node, PaintListener, ChatListener {
 
     static Random R = new Random();
 
