@@ -14,17 +14,17 @@ public abstract class ParentNode implements Node {
         this.children = new LinkedList<>();
     }
 
-    public ParentNode(Node... leaves) {
+    public ParentNode(Node... nodes) {
         this();
 
-        addNodes(leaves);
+        addNodes(nodes);
     }
 
-    public ParentNode(List<Node> leaves) {
+    public ParentNode(List<Node> nodes) {
         this();
 
-        for (Node leaf : leaves) {
-            this.children.add(leaf);
+        for (Node node : nodes) {
+            this.children.add(node);
         }
     }
 
@@ -33,8 +33,8 @@ public abstract class ParentNode implements Node {
         return this;
     }
 
-    public final ParentNode addNodes(Node... leaves) {
-        Collections.addAll(this.children, leaves);
+    public final ParentNode addNodes(Node... nodes) {
+        Collections.addAll(this.children, nodes);
         return this;
     }
 

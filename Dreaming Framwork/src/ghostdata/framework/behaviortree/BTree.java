@@ -68,19 +68,23 @@ public class BTree {
     public final int tick() {
         Object tick = rootNode.tick();
 
-        if (tick instanceof Object[]) {
-            Condition condition = (Condition) ((Object[]) tick)[0];
-            int wait = (int) ((Object[]) tick)[1];
+        if (tick != null) {
+            if (tick instanceof Object[]) {
+                Condition condition = (Condition) ((Object[]) tick)[0];
+                int wait = (int) ((Object[]) tick)[1];
 
-            MethodProvider.sleepUntil(condition, wait == -1 ? onConditionDoWait() : wait);
-        } else if (tick instanceof Condition) {
-            MethodProvider.sleepUntil((Condition) tick, onConditionDoWait());
-        } else if (tick.getClass() == int.class || tick.getClass() == Integer.class){
-            int i = (int) tick;
+                MethodProvider.sleepUntil(condition, wait == -1 ? onConditionDoWait() : wait);
+            } else if (tick instanceof Condition) {
+                MethodProvider.sleepUntil((Condition) tick, onConditionDoWait());
+            } else if (tick.getClass() == int.class || tick.getClass() == Integer.class) {
+                int i = (int) tick;
 
-            return i < 0 ? defaultSleepTimer() : i;
+                return i < 0 ? defaultSleepTimer() : i;
+            } else {
+                onUnknownTickObject(tick);
+            }
         } else {
-            onUnknownTickObject(tick);
+            onUnknownTickObject(null);
         }
 
         return Calculations.random(100, 1000);
