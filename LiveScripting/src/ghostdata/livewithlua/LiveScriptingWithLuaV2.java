@@ -28,6 +28,7 @@ public class LiveScriptingWithLuaV2 extends AbstractScript {
     public SettingsGUI settingsGUI;
 
     public LiveScript currentScript = new LiveScript();
+    public SampleLoader sampleLoader;
 
     public JFrame _loadFrame;
     public JFrame _editorFrame;
@@ -42,6 +43,12 @@ public class LiveScriptingWithLuaV2 extends AbstractScript {
     @Override
     public void onStart() {
         LiveScriptingWithLuaV2.instance = this;
+
+        if (getStoreId() == -1) { //ScriptManager.getScriptManager().isLocalScript() || getSDNParameters() == null
+            this.sampleLoader = new SampleLoader.LocalScriptSampleLoader();
+        } else {
+            this.sampleLoader = new SampleLoader.SDNSampleLoader();
+        }
 
         SwingUtilities.invokeLater(() -> {
             this.loadLuaScriptGUI = new LoadLuaScriptGUI();

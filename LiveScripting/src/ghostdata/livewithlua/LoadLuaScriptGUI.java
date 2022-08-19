@@ -21,34 +21,11 @@ public class LoadLuaScriptGUI {
     public JPanel rootPanel;
     private JButton loadScriptFromFileButton;
     private JButton newEmptyScriptButton;
-    private JButton loadSelectedSampleButton;
+    protected JButton loadSelectedSampleButton;
     public JList<String> scriptSamples;
 
     public LoadLuaScriptGUI() {
-        try {
-            List<String> samplesFound = new ArrayList<>();
-            CodeSource source = LiveScriptingWithLuaV2.class.getProtectionDomain().getCodeSource();
-            if (source != null) {
-                URL jar = source.getLocation();
-                ZipInputStream zip = new ZipInputStream(jar.openStream());
-                ZipEntry entry = null;
-
-                while ((entry = zip.getNextEntry()) != null) {
-                    String name = entry.getName();
-                    if (!entry.isDirectory() && name.startsWith("samples/")) {
-                        samplesFound.add(entry.getName().substring("samples/".length()));
-                    }
-                }
-            } else {
-                loadSelectedSampleButton.setEnabled(false);
-                scriptSamples.setListData(new String[] { "No Samples Found" });
-            }
-
-            scriptSamples.setListData(samplesFound.toArray(new String[samplesFound.size()]));
-        } catch (Exception e) {
-            loadSelectedSampleButton.setEnabled(false);
-            scriptSamples.setListData(new String[] { "No Samples Found" });
-        }
+        LiveScriptingWithLuaV2.instance().sampleLoader.updateSampleList(scriptSamples);
 
         loadScriptFromFileButton.addActionListener(new ActionListener() {
             @Override
@@ -86,30 +63,7 @@ public class LoadLuaScriptGUI {
             public void actionPerformed(ActionEvent event) {
                 String selected = scriptSamples.getSelectedValue();
 
-                try {
-                    String lines = "";
-                    InputStream stream = LiveScriptingWithLuaV2.class.getClassLoader().getResourceAsStream("samples/" + selected);
-
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-                        while (reader.ready()) {
-                            String line = reader.readLine();
-                            lines += line + "\n";
-                        }
-                    }
-
-                    LiveScriptingWithLuaV2.instance().currentScript = new LiveScript();
-                    LiveScriptingWithLuaV2.instance().currentScript.setContent(lines, false, false);
-                    LiveScriptingWithLuaV2.instance().currentScript.setEdited(true);
-                    LiveScriptingWithLuaV2.instance().currentScript.started = false;
-                    LiveScriptingWithLuaV2.instance().luaScriptEditor.luaEditorTextPane.setText(lines);
-
-                    LiveScriptingWithLuaV2.instance()._editorFrame.setVisible(true);
-                    LiveScriptingWithLuaV2.instance()._loadFrame.setVisible(false);
-
-                    LiveScriptingWithLuaV2.instance().ready = true;
-                } catch (Exception e) {
-                    MethodProvider.logError(e);
-                }
+                LiveScriptingWithLuaV2.instance().sampleLoader.selectSample(selected);
             }
         });
     }
