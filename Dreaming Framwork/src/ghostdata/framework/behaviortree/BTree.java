@@ -10,9 +10,6 @@ public class BTree {
 
     protected final RootNode rootNode;
 
-    protected ParentNode selectedParentNode;
-    protected Node selectedLeaf;
-
     public BTree() {
         this.rootNode = new RootNode();
         this.rootNode.BTree = this;
@@ -49,16 +46,8 @@ public class BTree {
         MethodProvider.logError("Override onUnknownTickObject in BTree");
     }
 
-    public final ParentNode getSelectedBranch() {
-        return selectedParentNode;
-    }
-
     public final void clear() {
         rootNode.children.clear();
-    }
-
-    public final Node getSelectedLeaf() {
-        return selectedLeaf;
     }
 
     public final boolean hasBranches() {

@@ -1,13 +1,14 @@
 package ghostdata.framework.behaviortree;
 
+import org.dreambot.api.methods.MethodProvider;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class ParentNode implements Node {
 
-    protected RootNode foundRootNode;
-    protected ParentNode parent;
     protected final List<Node> children;
 
     public ParentNode() {
@@ -24,12 +25,12 @@ public abstract class ParentNode implements Node {
         this();
 
         for (Node node : nodes) {
-            this.children.add(node);
+            addNode(node);
         }
     }
 
-    public final ParentNode addNode(Node leaf) {
-        children.add(leaf);
+    public final ParentNode addNode(Node node) {
+        children.add(node);
         return this;
     }
 
@@ -40,28 +41,21 @@ public abstract class ParentNode implements Node {
 
     @Override
     public final Object tick() {
-        if (foundRootNode == null) {
-            int defaultSleep = -1;
-            ParentNode crawler = parent;
-            ParentNode selected = this;
-
-            while (crawler != null && !(selected instanceof RootNode)) {
-                crawler = parent.parent;
-                selected = parent;
-            }
-
-            foundRootNode = (RootNode) selected;
-        }
-
         return children.stream()
-                .filter(l -> l != null && l.isValid())
+                .filter(new Predicate<Node>() {
+                    @Override
+                    public boolean test(Node node) {
+                        boolean is = node != null && node.isValid();
+                        MethodProvider.log("Filtering " + node.getClass().getSimpleName() + " - " + is);
+
+                        return is;
+                    }
+                })
                 .findAny()
                 .map(l -> {
-                        foundRootNode.BTree.selectedParentNode = this;
-                        foundRootNode.BTree.selectedLeaf = l;
-
+                        MethodProvider.log("Ticking " + l.getClass().getSimpleName());
                         return l.tick();
                     })
-                .orElse(foundRootNode.BTree.defaultSleepTimer());
+                .orElse(-1);
     }
 }

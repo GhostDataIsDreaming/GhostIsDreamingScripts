@@ -13,7 +13,10 @@ public abstract class WalkTo implements Node {
         Tile tile = getArea().getRandomTile();
         Walking.walk(tile);
 
-        return (Condition) () -> Walking.getDestinationDistance() <= getWaitDistance();
+        return new Object[] {
+                (Condition) () -> Walking.getDestinationDistance() <= getWaitDistance(),
+                10000
+        };
     }
 
     public abstract Area getArea();
