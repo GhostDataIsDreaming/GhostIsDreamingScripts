@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Dreaming Framwork/Dreaming Framwork.iml" filepath="$PROJECT_DIR$/Dreaming Framwork/Dreaming Framwork.iml" />
       <module fileurl="file://$PROJECT_DIR$/Framework Testing/Framework Testing.iml" filepath="$PROJECT_DIR$/Framework Testing/Framework Testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GhostFlourPots/GhostFlourPots.iml" filepath="$PROJECT_DIR$/GhostFlourPots/GhostFlourPots.iml" />
       <module fileurl="file://$PROJECT_DIR$/GhostPublicScripts.iml" filepath="$PROJECT_DIR$/GhostPublicScripts.iml" />
       <module fileurl="file://$PROJECT_DIR$/LiveScripting/LiveScripting.iml" filepath="$PROJECT_DIR$/LiveScripting/LiveScripting.iml" />
     </modules>
