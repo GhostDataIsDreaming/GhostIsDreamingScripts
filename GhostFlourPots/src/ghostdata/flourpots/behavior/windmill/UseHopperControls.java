@@ -27,7 +27,7 @@ public class UseHopperControls implements Node {
 
     @Override
     public Object tick() {
-        Tile controlTile = GhostFlourPots.selectedWindmillLocation.getHopperControlTile();
+        Tile controlTile = GhostFlourPots.selectedWindmillLocation.getHopperControlsTile();
         GameObject control = GameObjects.closest(obj -> obj.getTile().equals(controlTile));
 
         if (control != null) {
@@ -48,7 +48,7 @@ public class UseHopperControls implements Node {
                 3000
             };
         } else {
-            Walking.walk(controlTile.getRandomizedTile(2).getRandomizedTile(2));
+            Walking.walk(controlTile.getRandomizedTile(2));
             return (Condition) () -> Walking.getDestinationDistance() <= 2;
         }
     }

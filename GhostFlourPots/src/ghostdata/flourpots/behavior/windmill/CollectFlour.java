@@ -41,7 +41,7 @@ public class CollectFlour implements Node {
             }
             return Calculations.random(5, 500);
         } else {
-            Walking.walk(binTile.getRandomizedTile(2).getRandomizedTile(2));
+            Walking.walk(binTile.getRandomizedTile(2));
             return (Condition) () -> Walking.getDestinationDistance() <= 2;
         }
     }

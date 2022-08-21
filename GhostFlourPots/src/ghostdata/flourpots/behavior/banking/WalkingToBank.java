@@ -15,7 +15,7 @@ public class WalkingToBank extends WalkTo {
 
     @Override
     public Area getArea() {
-        return GhostFlourPots.selectedWindmillLocation.getBankingLocation().getArea(2);
+        return GhostFlourPots.selectedWindmillLocation.getBankLocation().getArea(2);
     }
 
     public Object onArrive() {

@@ -1,8 +1,6 @@
 package ghostdata.flourpots;
 
 import ghostdata.flourpots.vars.WindmillMessages;
-import ghostdata.flourpots.windmills.WestOfLumbridgeWindmill;
-import ghostdata.flourpots.windmills.WindmillLocation;
 import ghostdata.framework.FrameworkScript;
 import ghostdata.framework.behaviortree.BTree;
 import org.dreambot.api.methods.MethodProvider;
@@ -26,15 +24,11 @@ import java.util.Random;
         category = Category.MONEYMAKING,
         name = "Ghosts Flour Pot Maker",
         author = "GhostData",
-        version = 0.1)
+        version = 0.2)
 public class GhostFlourPots extends FrameworkScript {
 
     public static Random R = new Random();
     protected static final BTree bTree = new BTree();
-
-    protected static WindmillLocation[] AVAILABLE_LOCATIONS = new WindmillLocation[] {
-            new WestOfLumbridgeWindmill()
-    };
 
     public static WindmillLocation selectedWindmillLocation;
     public static ScriptStep currentStep = ScriptStep.RESUME;
@@ -117,7 +111,17 @@ public class GhostFlourPots extends FrameworkScript {
     @Override
     public int onLoop() {
         if (!bTree.hasBranches()) return 100;
-        MethodProvider.log("Current Step - " + currentStep);
+//        MethodProvider.log("Current Step - " + currentStep);
         return bTree.tick();
+    }
+
+    @Override
+    public void onExit() {
+        _selectorFrame.setVisible(false);
+    }
+
+    @Override
+    public void onResume() {
+        GhostFlourPots.currentStep = ScriptStep.RESUME;
     }
 }

@@ -48,7 +48,7 @@ public class AddToHopper implements Node {
                     3000
             };
         } else {
-            Walking.walk(hopperTile.getRandomizedTile(2).getRandomizedTile(2));
+            Walking.walk(hopperTile.getRandomizedTile(2));
             return (Condition) () -> Walking.getDestinationDistance() <= 2;
         }
     }

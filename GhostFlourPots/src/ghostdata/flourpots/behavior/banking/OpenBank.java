@@ -1,11 +1,8 @@
 package ghostdata.flourpots.behavior.banking;
 
 import ghostdata.flourpots.GhostFlourPots;
-import ghostdata.flourpots.behavior.BankingNodeParent;
-import ghostdata.flourpots.vars.FlourPotItems;
 import ghostdata.framework.behaviortree.Node;
 import org.dreambot.api.methods.Calculations;
-import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.walking.impl.Walking;
@@ -36,7 +33,7 @@ public class OpenBank implements Node {
             }
 
             if (bankerNpc == null) {
-                Walking.walk(GhostFlourPots.selectedWindmillLocation.getBankingLocation().getTile());
+                Walking.walk(GhostFlourPots.selectedWindmillLocation.getBankLocation().getTile());
             } else {
                 bankerNpc.interact(INTERACT);
             }
