@@ -11,15 +11,6 @@ import org.dreambot.api.utilities.impl.Condition;
 
 public class DepositFlourPot implements Node {
 
-//    @Override
-//    public boolean isValid() {
-//        return (Bank.isOpen() && Inventory.getEmptySlots() < 28)
-//                && Inventory.count(FlourPotItems.POT.id) != 14
-//                && Inventory.count(FlourPotItems.GRAIN.id) != 14;
-//                && !Inventory.contains(FlourPotItems.POT.id)
-//                && !Inventory.contains(FlourPotItems.GRAIN.id);
-//    }
-
     @Override
     public Object tick() {
         Bank.depositAllItems(); //TODO - Swap between hotkey, deposit all, deposit individually
@@ -29,8 +20,8 @@ public class DepositFlourPot implements Node {
     @Override
     public boolean isValid() {
         if (Bank.isOpen()) {
-            if (Inventory.isFull() || Inventory.getEmptySlots() <= 28) {
-                return true;
+            if (Inventory.isEmpty()) {
+                return false;
             }
 
             if (Inventory.contains(FlourPotItems.POT_OF_FLOUR.id)) {
@@ -43,6 +34,10 @@ public class DepositFlourPot implements Node {
 
             if ((Inventory.contains(FlourPotItems.POT.id) && !Inventory.contains(FlourPotItems.GRAIN.id)) || (Inventory.contains(FlourPotItems.GRAIN.id) && !Inventory.contains(FlourPotItems.POT.id))) {
                 GhostFlourPots.currentStep = ScriptStep.NO_REQUIREMENTS;
+                return true;
+            }
+
+            if (Inventory.isFull() || Inventory.getEmptySlots() < 28) {
                 return true;
             }
         }

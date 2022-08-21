@@ -5,6 +5,8 @@ import ghostdata.framework.behaviortree.Node;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.interactive.NPCs;
+import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.impl.Condition;
 import org.dreambot.api.wrappers.interactive.NPC;
@@ -14,9 +16,11 @@ public class OpenBank implements Node {
     static final String[] names = { "Banker", "Bank booth" };
     static final String INTERACT = "Bank";
 
+    Area bankCheckArea = GhostFlourPots.selectedWindmillLocation.getBankLocation().getArea(3);
+
     @Override
     public boolean isValid() {
-        return !Bank.isOpen() && NPCs.closest("Banker") != null;
+        return !Bank.isOpen() && bankCheckArea.contains(Players.localPlayer().getTile()) && NPCs.closest("Banker") != null;
     }
 
     @Override
