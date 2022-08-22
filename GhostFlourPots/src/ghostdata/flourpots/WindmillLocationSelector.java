@@ -4,6 +4,9 @@ import ghostdata.flourpots.behavior.BankingNodeParent;
 import ghostdata.flourpots.behavior.RequirementsNode;
 import ghostdata.flourpots.behavior.ResumeNode;
 import ghostdata.flourpots.behavior.WindmillNodeParent;
+import ghostdata.flourpots.vars.FlourPotItems;
+import org.dreambot.api.methods.grandexchange.LivePrices;
+import org.dreambot.api.utilities.Timer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,8 +31,11 @@ public class WindmillLocationSelector {
 
                 for (WindmillLocation location : WindmillLocation.values()) {
                     if (location.getName().equalsIgnoreCase(selected)) {
-                        GhostFlourPots.selectedWindmillLocation = location;
+                        ScriptStats.WIMDMILL_LOCATION = location;
                         GhostFlourPots.bTree.addNodes(new ResumeNode(), new RequirementsNode(), new BankingNodeParent(), new WindmillNodeParent());
+
+                        ScriptStats.GE_PRICE = LivePrices.get(FlourPotItems.POT_OF_FLOUR.id);
+                        ScriptStats.TIMER = new Timer();
                         break;
                     }
                 }

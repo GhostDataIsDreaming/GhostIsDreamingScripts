@@ -1,6 +1,6 @@
 package ghostdata.flourpots.behavior.banking;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.framework.behaviortree.premade.WalkTo;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.interactive.NPCs;
@@ -15,7 +15,7 @@ public class WalkingToBank extends WalkTo {
 
     @Override
     public Area getArea() {
-        return GhostFlourPots.selectedWindmillLocation.getBankLocation().getArea(2);
+        return ScriptStats.WIMDMILL_LOCATION.getBankLocation().getArea(2);
     }
 
     public Object onArrive() {

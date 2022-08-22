@@ -1,6 +1,6 @@
 package ghostdata.flourpots.behavior.banking;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.framework.behaviortree.Node;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -16,7 +16,7 @@ public class OpenBank implements Node {
     static final String[] names = { "Banker", "Bank booth" };
     static final String INTERACT = "Bank";
 
-    Area bankCheckArea = GhostFlourPots.selectedWindmillLocation.getBankLocation().getArea(3);
+    Area bankCheckArea = ScriptStats.WIMDMILL_LOCATION.getBankLocation().getArea(3);
 
     @Override
     public boolean isValid() {
@@ -26,7 +26,7 @@ public class OpenBank implements Node {
     @Override
     public Object tick() {
         if (Calculations.random(0, 100) <= 25) {
-            Bank.open(); // TODO - Swap Between using hotkeys and interacting
+            Bank.open();
         } else {
             NPC bankerNpc;
 
@@ -37,7 +37,7 @@ public class OpenBank implements Node {
             }
 
             if (bankerNpc == null) {
-                Walking.walk(GhostFlourPots.selectedWindmillLocation.getBankLocation().getTile());
+                Walking.walk(ScriptStats.WIMDMILL_LOCATION.getBankLocation().getTile());
             } else {
                 bankerNpc.interact(INTERACT);
             }

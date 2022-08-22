@@ -1,6 +1,6 @@
 package ghostdata.flourpots.behavior;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
 import ghostdata.flourpots.vars.FlourPotItems;
 import ghostdata.framework.behaviortree.Node;
@@ -13,26 +13,26 @@ public class ResumeNode implements Node {
 
     @Override
     public boolean isValid() {
-        return GhostFlourPots.currentStep == ScriptStep.RESUME && !completed;
+        return ScriptStats.CURRENT_STEP == ScriptStep.RESUME && !completed;
     }
 
     @Override
     public Object tick() {
         if (Inventory.contains(FlourPotItems.POT_OF_FLOUR.id) || Inventory.isEmpty()) {
-            GhostFlourPots.currentStep = ScriptStep.BANKING;
-        } else if (GhostFlourPots.selectedWindmillLocation.getWindmillArea().contains(Players.localPlayer().getTile())) {
+            ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+        } else if (ScriptStats.WIMDMILL_LOCATION.getWindmillArea().contains(Players.localPlayer().getTile())) {
             if (Inventory.contains(FlourPotItems.GRAIN.id)) {
-                GhostFlourPots.currentStep = ScriptStep.ADDING_TO_HOPPER;
+                ScriptStats.CURRENT_STEP = ScriptStep.ADDING_TO_HOPPER;
             } else if (Inventory.contains(FlourPotItems.POT.id)) {
-                GhostFlourPots.currentStep = ScriptStep.COLLECTING_FLOUR;
+                ScriptStats.CURRENT_STEP = ScriptStep.COLLECTING_FLOUR;
             } else {
-                GhostFlourPots.currentStep = ScriptStep.BANKING;
+                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
             }
         } else {
             if (Inventory.count(FlourPotItems.POT.id) == 14 && Inventory.count(FlourPotItems.GRAIN.id) == 14) {
-                GhostFlourPots.currentStep = ScriptStep.WALKING_TO_WINDMILL;
+                ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_WINDMILL;
             } else {
-                GhostFlourPots.currentStep = ScriptStep.BANKING;
+                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
             }
         }
 

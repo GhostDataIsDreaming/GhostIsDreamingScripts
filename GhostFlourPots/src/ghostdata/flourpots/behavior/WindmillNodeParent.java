@@ -1,6 +1,6 @@
 package ghostdata.flourpots.behavior;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
 import ghostdata.flourpots.behavior.windmill.AddToHopper;
 import ghostdata.flourpots.behavior.windmill.CollectFlour;
@@ -20,6 +20,6 @@ public class WindmillNodeParent extends ParentNode {
 
     @Override
     public boolean isValid() {
-        return GhostFlourPots.currentStep != ScriptStep.BANKING;
+        return ScriptStats.CURRENT_STEP != ScriptStep.BANKING;
     }
 }

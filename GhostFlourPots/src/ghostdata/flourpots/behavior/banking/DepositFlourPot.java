@@ -1,8 +1,7 @@
 package ghostdata.flourpots.behavior.banking;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
-import ghostdata.flourpots.behavior.BankingNodeParent;
 import ghostdata.flourpots.vars.FlourPotItems;
 import ghostdata.framework.behaviortree.Node;
 import org.dreambot.api.methods.container.impl.Inventory;
@@ -33,7 +32,7 @@ public class DepositFlourPot implements Node {
             }
 
             if ((Inventory.contains(FlourPotItems.POT.id) && !Inventory.contains(FlourPotItems.GRAIN.id)) || (Inventory.contains(FlourPotItems.GRAIN.id) && !Inventory.contains(FlourPotItems.POT.id))) {
-                GhostFlourPots.currentStep = ScriptStep.NO_REQUIREMENTS;
+                ScriptStats.CURRENT_STEP = ScriptStep.NO_REQUIREMENTS;
                 return true;
             }
 

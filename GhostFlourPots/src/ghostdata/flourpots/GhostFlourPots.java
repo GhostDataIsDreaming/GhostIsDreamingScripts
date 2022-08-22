@@ -3,6 +3,8 @@ package ghostdata.flourpots;
 import ghostdata.flourpots.vars.WindmillMessages;
 import ghostdata.framework.FrameworkScript;
 import ghostdata.framework.behaviortree.BTree;
+import ghostdata.framework.mouse.EaseMouse;
+import org.dreambot.api.Client;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Map;
@@ -18,20 +20,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 
 @ScriptManifest(
         category = Category.MONEYMAKING,
         name = "Ghosts Flour Pot Maker",
         author = "GhostData",
-        version = 0.2)
-public class GhostFlourPots extends FrameworkScript {
+        version = 0.3)
+public class GhostFlourPots extends FrameworkScript implements ChatListener, PaintListener {
 
-    public static Random R = new Random();
     protected static final BTree bTree = new BTree();
-
-    public static WindmillLocation selectedWindmillLocation;
-    public static ScriptStep currentStep = ScriptStep.RESUME;
 
     private WindmillLocationSelector _windmillLocationSelector;
     private JFrame _selectorFrame;
@@ -54,64 +51,13 @@ public class GhostFlourPots extends FrameworkScript {
             });
         });
 
-        this.addChatListener(new ChatListener() {
-            @Override
-            public void onMessage(Message message) {
-                if (!updateStep(message)) {
-                    MethodProvider.log("Found Unknown Message: " + message.getMessage());
-                }
-            }
-
-            @Override
-            public void onGameMessage(Message message) {
-                if (!updateStep(message)) {
-                    MethodProvider.log("Found Unknown Game Message: " + message.getMessage());
-                }
-            }
-
-            boolean updateStep(Message message) {
-                switch (message.getMessage()) {
-                    case WindmillMessages.NO_POT:
-                    case WindmillMessages.FLOUR_BIN_EMPTY:
-                        currentStep = ScriptStep.BANKING;
-                        return true;
-                    case WindmillMessages.FLOUR_BIN_FULL:
-                    case WindmillMessages.FLOUR_BIN_SUCCESS:
-                        currentStep = ScriptStep.COLLECTING_FLOUR;
-                        return true;
-                    case WindmillMessages.HOPPER_CONTROLS_SUCCESS:
-                    case WindmillMessages.HOPPER_EMPTY:
-                        currentStep = ScriptStep.ADDING_TO_HOPPER;
-                        return true;
-                    case WindmillMessages.HOPPER_FULL:
-                    case WindmillMessages.HOPPER_SUCCESS:
-                        currentStep = ScriptStep.USE_CONTROLS;
-                        return true;
-                }
-
-                return false;
-            }
-        });
-
-        this.addPaintListener(new PaintListener() {
-            @Override
-            public void onPaint(Graphics graphics) {
-                if (selectedWindmillLocation == null) return;
-                Area area = selectedWindmillLocation.getWindmillArea();
-
-                for (Tile tile : area.getTiles()) {
-                    if (Map.isVisible(tile)) {
-                        graphics.drawPolygon(tile.getPolygon());
-                    }
-                }
-            }
-        });
+        Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
+        Client.getInstance().setDrawMouse(true);
     }
 
     @Override
     public int onLoop() {
         if (!bTree.hasBranches()) return 100;
-//        MethodProvider.log("Current Step - " + currentStep);
         return bTree.tick();
     }
 
@@ -122,6 +68,80 @@ public class GhostFlourPots extends FrameworkScript {
 
     @Override
     public void onResume() {
-        GhostFlourPots.currentStep = ScriptStep.RESUME;
+        ScriptStats.TIMER.resume();
+        ScriptStats.CURRENT_STEP = ScriptStep.RESUME;
+    }
+
+    @Override
+    public void onPause() {
+        ScriptStats.TIMER.pause();
+    }
+
+    @Override
+    public void onMessage(Message message) {
+        if (!updateStepBasedOnMessage(message)) {
+            MethodProvider.log("Found Unknown Message: " + message.getMessage());
+        }
+    }
+
+    @Override
+    public void onGameMessage(Message message) {
+        if (!updateStepBasedOnMessage(message)) {
+            MethodProvider.log("Found Unknown Game Message: " + message.getMessage());
+        }
+    }
+
+    @Override
+    public void onPaint(Graphics graphics) {
+        if (ScriptStats.WIMDMILL_LOCATION == null || !bTree.hasBranches()) return;
+        Area area = ScriptStats.WIMDMILL_LOCATION.getWindmillArea();
+
+        for (Tile tile : area.getTiles()) {
+            if (Map.isVisible(tile)) {
+                graphics.drawPolygon(tile.getPolygon());
+            }
+        }
+
+        graphics.setColor(Color.CYAN);
+
+        int start = 30;
+        int sep = 15;
+
+        String[] lines = {
+                "Elapsed Time: " + ScriptStats.TIMER.formatTime(),
+                "Pots Made: " + ScriptStats.POTS_MADE + " (" + ScriptStats.TIMER.getHourlyRate(ScriptStats.POTS_MADE) + "/hr)",
+                "Potential Profit: " + (ScriptStats.GE_PRICE * ScriptStats.POTS_MADE),
+                "Current Step: " + ScriptStats.CURRENT_STEP
+        };
+
+        for (String line : lines) {
+            graphics.drawString(line, 10, (start += sep));
+        }
+    }
+
+   private boolean updateStepBasedOnMessage(Message message) {
+        switch (message.getMessage()) {
+            case WindmillMessages.NO_POT:
+            case WindmillMessages.FLOUR_BIN_EMPTY:
+                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+
+//                ScriptStats.POTS_MADE += Inventory.count(FlourPotItems.POT_OF_FLOUR.id);
+                return true;
+            case WindmillMessages.FLOUR_BIN_SUCCESS:
+                ScriptStats.POTS_MADE++;
+            case WindmillMessages.FLOUR_BIN_FULL:
+                ScriptStats.CURRENT_STEP = ScriptStep.COLLECTING_FLOUR;
+                return true;
+            case WindmillMessages.HOPPER_CONTROLS_SUCCESS:
+            case WindmillMessages.HOPPER_EMPTY:
+                ScriptStats.CURRENT_STEP = ScriptStep.ADDING_TO_HOPPER;
+                return true;
+            case WindmillMessages.HOPPER_FULL:
+            case WindmillMessages.HOPPER_SUCCESS:
+                ScriptStats.CURRENT_STEP = ScriptStep.USE_CONTROLS;
+                return true;
+        }
+
+        return false;
     }
 }

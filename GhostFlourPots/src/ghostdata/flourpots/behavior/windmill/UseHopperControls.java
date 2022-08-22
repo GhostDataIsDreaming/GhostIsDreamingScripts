@@ -1,19 +1,17 @@
 package ghostdata.flourpots.behavior.windmill;
 
-import ghostdata.flourpots.GhostFlourPots;
+import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
 import ghostdata.flourpots.vars.FlourPotItems;
+import ghostdata.framework.utils.EntityUtils;
 import ghostdata.framework.behaviortree.Node;
-import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.interactive.GameObjects;
-import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.utilities.impl.Condition;
 import org.dreambot.api.wrappers.interactive.GameObject;
-import org.dreambot.api.wrappers.interactive.NPC;
 
 public class UseHopperControls implements Node {
 
@@ -22,25 +20,26 @@ public class UseHopperControls implements Node {
 
     @Override
     public boolean isValid() {
-        return GhostFlourPots.currentStep == ScriptStep.USE_CONTROLS;
+        return ScriptStats.CURRENT_STEP == ScriptStep.USE_CONTROLS;
     }
 
     @Override
     public Object tick() {
-        Tile controlTile = GhostFlourPots.selectedWindmillLocation.getHopperControlsTile();
+        Tile controlTile = ScriptStats.WIMDMILL_LOCATION.getHopperControlsTile();
         GameObject control = GameObjects.closest(obj -> obj.getTile().equals(controlTile));
 
         if (control != null) {
-            if (Calculations.random(0, 100) <= 25) {
-                control.interactForceRight(INTERACT);
-            } else {
-                control.interact();
-            }
+//            if (Calculations.random(0, 100) <= 25) {
+//                control.interactForceRight(INTERACT);
+//            } else {
+//                control.interact();
+//            }
 
-            GhostFlourPots.currentStep = ScriptStep.USE_CONTROLS;
+            EntityUtils.interactEntity(control, INTERACT);
+            ScriptStats.CURRENT_STEP = ScriptStep.USE_CONTROLS;
 
             if (Inventory.count(FlourPotItems.GRAIN.id) == 0) {
-                GhostFlourPots.currentStep = ScriptStep.COLLECTING_FLOUR;
+                ScriptStats.CURRENT_STEP = ScriptStep.COLLECTING_FLOUR;
             }
 
             return new Object[] {
