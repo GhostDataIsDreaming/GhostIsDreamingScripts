@@ -17,7 +17,8 @@ import java.awt.event.WindowEvent;
         description = "Write and edit scripts live while your bot is running.",
         author = "GhostData",
         version = 2.4,
-        category = Category.MISC
+        category = Category.MISC,
+        image = "https://i.imgur.com/OoDAE2w.png"
 )
 public class LiveScriptingWithLuaV2 extends AbstractScript {
 
@@ -44,7 +45,7 @@ public class LiveScriptingWithLuaV2 extends AbstractScript {
     public void onStart() {
         LiveScriptingWithLuaV2.instance = this;
 
-        if (getStoreId() == -1) { //ScriptManager.getScriptManager().isLocalScript() || getSDNParameters() == null
+        if (getSDNParameters() == null) { //ScriptManager.getScriptManager().isLocalScript() <- Does not exist yet.
             this.sampleLoader = new SampleLoader.LocalScriptSampleLoader();
         } else {
             this.sampleLoader = new SampleLoader.SDNSampleLoader();
@@ -145,14 +146,12 @@ public class LiveScriptingWithLuaV2 extends AbstractScript {
             }
         } catch (Exception e) {
             error = e;
-            MethodProvider.logError(e);
         }
         //End Script
 
         // Display Any Errors
         if (error != null) {
             if (showFullError) {
-//                error.printStackTrace();
                 MethodProvider.logError(error);
             }
 

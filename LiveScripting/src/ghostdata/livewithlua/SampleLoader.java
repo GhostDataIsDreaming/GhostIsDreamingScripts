@@ -2,7 +2,6 @@ package ghostdata.livewithlua;
 
 import ghostdata.livewithlua.environment.script.LiveScript;
 import org.dreambot.api.methods.MethodProvider;
-import org.luaj.vm2.ast.Str;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -102,9 +101,6 @@ public interface SampleLoader {
                 String sample = e.getKey();
                 String _url = e.getValue();
 
-                MethodProvider.log("Trying " + sample);
-                MethodProvider.log("URL " + _url);
-
                 try {
                     URL url = new URL(_url);
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -118,8 +114,6 @@ public interface SampleLoader {
 
                     bufferedReader.close();
                     String lines = stringBuilder.toString().trim();
-
-                    System.out.println("Found...\n" + lines);
 
                     loadedSamples.put(sample, lines);
                 } catch (Exception ex) {
