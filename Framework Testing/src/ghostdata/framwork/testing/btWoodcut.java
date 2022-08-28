@@ -1,6 +1,6 @@
 package ghostdata.framwork.testing;
 
-import ghostdata.framework.behaviortree.BTree;
+import ghostdata.framework.behaviortree.BehaviorTree;
 import ghostdata.framework.behaviortree.premade.DepositSelectedItems;
 import ghostdata.framework.behaviortree.premade.WalkToArea;
 import ghostdata.framwork.testing.nodes.WoodcutNode;
@@ -18,12 +18,12 @@ import org.dreambot.api.wrappers.items.Item;
 @ScriptManifest(category = Category.WOODCUTTING, name = "btWoodcut", author = "GhostData", version = 0.0)
 public class btWoodcut extends AbstractScript {
 
-    public static BTree btTree;
+    public static BehaviorTree btTree;
     int maxRadius = 10;
 
     @Override
     public void onStart() {
-        btTree = new BTree();
+        btTree = new BehaviorTree();
     }
 
     private static final Filter<Item> LOG_FILTER = new Filter<Item>() {

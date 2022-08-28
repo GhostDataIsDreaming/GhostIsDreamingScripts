@@ -35,7 +35,7 @@ public class DepositItemsExcept implements Node {
             return -1;
         } else {
             Bank.open();
-            return (Condition) () -> { return Bank.isOpen(); };
+            return (Condition) () -> Bank.isOpen();
         }
     }
 }

@@ -2,10 +2,16 @@ package ghostdata.flourpots.behavior.windmill;
 
 import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
-import ghostdata.framework.behaviortree.premade.WalkTo;
-import org.dreambot.api.methods.map.Area;
+import ghostdata.framework.behaviortree.premade.TilePathWalker;
+import ghostdata.framework.utils.CameraUtils;
 
-public class WalkToWindmill extends WalkTo {
+public class WalkToWindmill extends TilePathWalker {
+
+    public WalkToWindmill() {
+        super(
+                ScriptStats.WIMDMILL_LOCATION.getWindmillArea(),
+                ScriptStats.WIMDMILL_LOCATION.getPathways());
+    }
 
     @Override
     public boolean isValid() {
@@ -13,13 +19,10 @@ public class WalkToWindmill extends WalkTo {
     }
 
     @Override
-    public Area getArea() {
-        return ScriptStats.WIMDMILL_LOCATION.getWindmillArea();
-    }
-
-    @Override
-    public Object onArrive() {
+    public Object onArrival() {
         ScriptStats.CURRENT_STEP = ScriptStep.ADDING_TO_HOPPER;
+
+        CameraUtils.randomZoom();
         return -1;
     }
 }

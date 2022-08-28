@@ -8,5 +8,8 @@ public enum ScriptStep {
     BANKING,
     WALKING_TO_WINDMILL,
     NO_REQUIREMENTS,
-    RESUME;
+    RESUME,
+    WALKING_TO_BANK,
+    WALKING_TO_GRAINS,
+    PICK_GRAINS;
 }

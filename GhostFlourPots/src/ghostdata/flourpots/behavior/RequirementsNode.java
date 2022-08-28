@@ -18,14 +18,15 @@ public class RequirementsNode implements Node {
 
     @Override
     public boolean isValid() {
-        return Bank.isOpen() && ((lastChecked - System.currentTimeMillis()) >= CHECK_INTERVAL);
+//        return Bank.isOpen() && ((lastChecked - System.currentTimeMillis()) >= CHECK_INTERVAL);
+        return false;
     }
 
     @Override
     public Object tick() {
         if (
-                !(Bank.contains(FlourPotItems.POT.id) && Bank.contains(FlourPotItems.GRAIN.id)) &&
-                !(Inventory.contains(FlourPotItems.POT.id) && Inventory.contains(FlourPotItems.GRAIN.id))
+                !(Bank.contains(FlourPotItems.POT.id) && Bank.contains(FlourPotItems.GRAIN.id))
+//               && !(Inventory.contains(FlourPotItems.POT.id) && Inventory.contains(FlourPotItems.GRAIN.id))
         ) {
             ScriptStats.CURRENT_STEP = ScriptStep.NO_REQUIREMENTS;
             MethodProvider.log("Ran out of either Grains or Pots. Script Pausing.");

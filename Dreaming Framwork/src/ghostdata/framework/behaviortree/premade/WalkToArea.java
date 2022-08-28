@@ -18,4 +18,9 @@ public abstract class WalkToArea extends WalkTo {
     public Area getArea() {
         return this.startingArea;
     }
+
+    @Override
+    public Object onArrive() {
+        return -1;
+    }
 }

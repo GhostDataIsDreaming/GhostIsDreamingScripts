@@ -2,13 +2,13 @@ package ghostdata.flourpots;
 
 import ghostdata.flourpots.vars.WindmillMessages;
 import ghostdata.framework.FrameworkScript;
-import ghostdata.framework.behaviortree.BTree;
-import ghostdata.framework.mouse.EaseMouse;
+import ghostdata.framework.behaviortree.BehaviorTree;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManager;
 import org.dreambot.api.script.ScriptManifest;
@@ -25,16 +25,24 @@ import java.awt.event.WindowEvent;
         category = Category.MONEYMAKING,
         name = "Ghosts Flour Pot Maker",
         author = "GhostData",
-        version = 0.3)
+        version = 0.4,
+        image = "https://i.imgur.com/AlhYEm1.png")
 public class GhostFlourPots extends FrameworkScript implements ChatListener, PaintListener {
 
-    protected static final BTree bTree = new BTree();
+    private static GhostFlourPots instance;
 
-    private WindmillLocationSelector _windmillLocationSelector;
+    public static GhostFlourPots getInstance() {
+        return instance;
+    }
+
+    public final BehaviorTree bTree = new BehaviorTree();
+
+    public WindmillLocationSelector _windmillLocationSelector;
     private JFrame _selectorFrame;
 
     @Override
     public void onStart() {
+        GhostFlourPots.instance = this;
         SwingUtilities.invokeLater(() -> {
             this._windmillLocationSelector = new WindmillLocationSelector();
             this._selectorFrame = new JFrame("Ghosts Flour Pot Maker");
@@ -51,7 +59,7 @@ public class GhostFlourPots extends FrameworkScript implements ChatListener, Pai
             });
         });
 
-        Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
+//        Client.getInstance().setMouseMovementAlgorithm(new EaseMouse());
         Client.getInstance().setDrawMouse(true);
     }
 
@@ -109,26 +117,46 @@ public class GhostFlourPots extends FrameworkScript implements ChatListener, Pai
 
         String[] lines = {
                 "Elapsed Time: " + ScriptStats.TIMER.formatTime(),
-                "Pots Made: " + ScriptStats.POTS_MADE + " (" + ScriptStats.TIMER.getHourlyRate(ScriptStats.POTS_MADE) + "/hr)",
-                "Potential Profit: " + (ScriptStats.GE_PRICE * ScriptStats.POTS_MADE),
-                "Current Step: " + ScriptStats.CURRENT_STEP
+                "Pots Made: " + ScriptStats.POTS_OF_FLOUT_MADE + " (" + ScriptStats.TIMER.getHourlyRate(ScriptStats.POTS_OF_FLOUT_MADE) + "/hr)",
+                "Potential Profit: " + (ScriptStats.GE_PRICE * ScriptStats.POTS_OF_FLOUT_MADE),
+                "Current Step: " + ScriptStats.CURRENT_STEP + (ScriptStats.CURRENT_STEP == ScriptStep.NO_REQUIREMENTS ? " (No Grains or Pots)" : "")
         };
 
         for (String line : lines) {
             graphics.drawString(line, 10, (start += sep));
         }
+
+
+        if (ScriptStats.WIMDMILL_LOCATION.getPathways() != null) {
+            for (Tile[] path : ScriptStats.WIMDMILL_LOCATION.getPathways()) {
+                for (Tile tile : path) {
+                    if (Map.isVisible(tile)) {
+                        graphics.drawPolygon(tile.getPolygon());
+                    }
+                }
+            }
+        }
+
+        if (Walking.getDestination() != null) {
+            if (Map.isVisible(Walking.getDestination())) {
+                graphics.setColor(Color.GREEN);
+                graphics.drawPolygon(Walking.getDestination().getPolygon());
+            }
+        }
     }
 
    private boolean updateStepBasedOnMessage(Message message) {
         switch (message.getMessage()) {
+            case WindmillMessages.LAST_FLOUR_IN_BIN:
+                ScriptStats.POTS_OF_FLOUT_MADE++;
             case WindmillMessages.NO_POT:
             case WindmillMessages.FLOUR_BIN_EMPTY:
-                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+                ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_BANK;
 
 //                ScriptStats.POTS_MADE += Inventory.count(FlourPotItems.POT_OF_FLOUR.id);
                 return true;
             case WindmillMessages.FLOUR_BIN_SUCCESS:
-                ScriptStats.POTS_MADE++;
+                ScriptStats.POTS_OF_FLOUT_MADE++;
             case WindmillMessages.FLOUR_BIN_FULL:
                 ScriptStats.CURRENT_STEP = ScriptStep.COLLECTING_FLOUR;
                 return true;
@@ -138,6 +166,7 @@ public class GhostFlourPots extends FrameworkScript implements ChatListener, Pai
                 return true;
             case WindmillMessages.HOPPER_FULL:
             case WindmillMessages.HOPPER_SUCCESS:
+            case WindmillMessages.HOPPER_CONTROLS_EXAMINE:
                 ScriptStats.CURRENT_STEP = ScriptStep.USE_CONTROLS;
                 return true;
         }

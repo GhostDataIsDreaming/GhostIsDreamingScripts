@@ -6,18 +6,18 @@ import org.dreambot.api.utilities.impl.Condition;
 
 import java.util.stream.Stream;
 
-public class BTree {
+public class BehaviorTree {
 
     protected final RootNode rootNode;
 
-    public BTree() {
+    public BehaviorTree() {
         this.rootNode = new RootNode();
-        this.rootNode.BTree = this;
+        this.rootNode.BehaviorTree = this;
     }
 
-    public BTree(RootNode rootNode) {
+    public BehaviorTree(RootNode rootNode) {
         this.rootNode = rootNode;
-        this.rootNode.BTree = this;
+        this.rootNode.BehaviorTree = this;
     }
 
     public int defaultSleepTimer() {
@@ -27,12 +27,12 @@ public class BTree {
         return Calculations.random(min, max);
     }
 
-    public final BTree addNode(Node node) {
+    public final BehaviorTree addNode(Node node) {
         rootNode.addNodes(node);
         return this;
     }
 
-    public final BTree addNodes(Node... nodes) {
+    public final BehaviorTree addNodes(Node... nodes) {
         rootNode.addNodes(nodes);
         return this;
     }

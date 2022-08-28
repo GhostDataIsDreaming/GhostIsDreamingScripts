@@ -61,9 +61,7 @@ public class WithdrawSelectedItem implements Node {
             Bank.close();
         } else {
             Bank.open();
-            return (Condition) () -> {
-                return Bank.isOpen();
-            };
+            return (Condition) () -> Bank.isOpen();
         }
 
         return -1;

@@ -3,9 +3,11 @@ package ghostdata.flourpots.behavior.windmill;
 import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
 import ghostdata.flourpots.vars.FlourPotItems;
-import ghostdata.framework.utils.EntityUtils;
 import ghostdata.framework.behaviortree.Node;
+import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.input.Camera;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Tile;
@@ -34,14 +36,21 @@ public class AddToHopper implements Node {
         GameObject hopper = GameObjects.closest(obj -> obj.getTile().equals(hopperTile));
 
         if (hopper != null) {
-//            if (Calculations.random(0, 100) <= 25) {
-//                hopper.interactForceRight(INTERACT);
-//            } else {
-//                hopper.interact();
-//            }
+            if (!hopper.isOnScreen()) {
+                if (ScriptStats.R.nextBoolean()) {
+                    Camera.rotateToEntity(hopper);
+                } else {
+                    Camera.mouseRotateToEntity(hopper);
+                }
+            }
 
-            EntityUtils.interactEntity(hopper, INTERACT);
+            if (Calculations.random(0, 100) <= 10) {
+                hopper.interactForceRight(INTERACT);
+            } else {
+                hopper.interact();
+            }
 
+            MethodProvider.sleep(100, 500);
             ScriptStats.CURRENT_STEP = ScriptStep.USE_CONTROLS;
             return new Object[] {
                     (Condition) () -> Players.localPlayer().getAnimation() == ANIMATION,

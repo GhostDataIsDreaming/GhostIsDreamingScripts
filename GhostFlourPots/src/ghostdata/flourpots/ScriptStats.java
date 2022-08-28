@@ -6,7 +6,9 @@ import java.util.Random;
 
 public class ScriptStats {
 
-    public static int POTS_MADE = 0;
+    public static int POTS_OF_FLOUT_MADE = 0;
+    public static int GRAINS_COLLECTED = 0;
+
     public static int GE_PRICE = 0;
 
     public static Timer TIMER;

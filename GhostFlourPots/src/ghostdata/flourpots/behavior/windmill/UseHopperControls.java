@@ -3,8 +3,8 @@ package ghostdata.flourpots.behavior.windmill;
 import ghostdata.flourpots.ScriptStats;
 import ghostdata.flourpots.ScriptStep;
 import ghostdata.flourpots.vars.FlourPotItems;
-import ghostdata.framework.utils.EntityUtils;
 import ghostdata.framework.behaviortree.Node;
+import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
@@ -29,13 +29,13 @@ public class UseHopperControls implements Node {
         GameObject control = GameObjects.closest(obj -> obj.getTile().equals(controlTile));
 
         if (control != null) {
-//            if (Calculations.random(0, 100) <= 25) {
-//                control.interactForceRight(INTERACT);
-//            } else {
-//                control.interact();
-//            }
+            if (Calculations.random(0, 100) <= 10) {
+                control.interactForceRight(INTERACT);
+            } else {
+                control.interact();
+            }
 
-            EntityUtils.interactEntity(control, INTERACT);
+//            EntityUtils.interactEntity(control, INTERACT);
             ScriptStats.CURRENT_STEP = ScriptStep.USE_CONTROLS;
 
             if (Inventory.count(FlourPotItems.GRAIN.id) == 0) {

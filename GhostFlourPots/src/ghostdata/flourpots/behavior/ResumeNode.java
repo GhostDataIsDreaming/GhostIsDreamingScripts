@@ -19,20 +19,20 @@ public class ResumeNode implements Node {
     @Override
     public Object tick() {
         if (Inventory.contains(FlourPotItems.POT_OF_FLOUR.id) || Inventory.isEmpty()) {
-            ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+            ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_BANK;
         } else if (ScriptStats.WIMDMILL_LOCATION.getWindmillArea().contains(Players.localPlayer().getTile())) {
             if (Inventory.contains(FlourPotItems.GRAIN.id)) {
                 ScriptStats.CURRENT_STEP = ScriptStep.ADDING_TO_HOPPER;
             } else if (Inventory.contains(FlourPotItems.POT.id)) {
                 ScriptStats.CURRENT_STEP = ScriptStep.COLLECTING_FLOUR;
             } else {
-                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+                ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_BANK;
             }
         } else {
-            if (Inventory.count(FlourPotItems.POT.id) == 14 && Inventory.count(FlourPotItems.GRAIN.id) == 14) {
+            if (Inventory.contains(FlourPotItems.POT.id, FlourPotItems.GRAIN.id)) {
                 ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_WINDMILL;
             } else {
-                ScriptStats.CURRENT_STEP = ScriptStep.BANKING;
+                ScriptStats.CURRENT_STEP = ScriptStep.WALKING_TO_BANK;
             }
         }
 

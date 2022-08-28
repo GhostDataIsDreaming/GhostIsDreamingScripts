@@ -3,14 +3,14 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="500" height="607"/>
     </constraints>
     <properties>
       <minimumSize width="300" height="96"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="5a81" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="5a81" layout-manager="GridLayoutManager" row-count="14" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -23,7 +23,7 @@
           <grid id="711b0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="1" column="1" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="250" height="-1"/>
               </grid>
             </constraints>
@@ -41,7 +41,7 @@
           <grid id="c8215" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <enabled value="true"/>
@@ -58,9 +58,7 @@
                   <enabled value="false"/>
                   <layoutOrientation value="0"/>
                   <model>
-                    <item value="Track Pots Made &amp; Potential Profit"/>
                     <item value="Cooks Guild Windmill"/>
-                    <item value="Grain Picker"/>
                     <item value="GE Buyer for Pots &amp; Grains"/>
                     <item value="Sell Flour Pots at GE"/>
                   </model>
@@ -77,21 +75,21 @@
           </hspacer>
           <vspacer id="74d0c">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+              <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="10"/>
               </grid>
             </constraints>
           </vspacer>
           <hspacer id="78ef1">
             <constraints>
-              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+              <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="10" height="-1"/>
               </grid>
             </constraints>
           </hspacer>
           <component id="8340c" class="javax.swing.JButton" binding="startButton" default-binding="true">
             <constraints>
-              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+              <grid row="12" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="25"/>
               </grid>
             </constraints>
@@ -101,21 +99,21 @@
           </component>
           <vspacer id="d3e06">
             <constraints>
-              <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+              <grid row="13" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="10"/>
               </grid>
             </constraints>
           </vspacer>
           <vspacer id="37918">
             <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+              <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="5"/>
               </grid>
             </constraints>
           </vspacer>
           <vspacer id="63df0">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+              <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="5"/>
               </grid>
             </constraints>
@@ -123,7 +121,7 @@
           <grid id="d6c16" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="5" column="1" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="300" height="-1"/>
               </grid>
             </constraints>
@@ -149,13 +147,92 @@
               </component>
             </children>
           </grid>
+          <component id="747dc" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="9" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="This is a heavy click activity that is heavily monitored."/>
+            </properties>
+          </component>
           <vspacer id="deb94">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                <minimum-size width="-1" height="5"/>
+              <grid row="6" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="15"/>
               </grid>
             </constraints>
           </vspacer>
+          <component id="b5ac8" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="10" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Start with Caution"/>
+            </properties>
+          </component>
+          <component id="afe37" class="javax.swing.JLabel" binding="warningLabel">
+            <constraints>
+              <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Warning"/>
+            </properties>
+          </component>
+          <vspacer id="29ef3">
+            <constraints>
+              <grid row="11" column="2" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="ef4bc" class="javax.swing.JLabel" binding="warningIconLeft">
+            <constraints>
+              <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="84c3c" class="javax.swing.JLabel" binding="warningIconRight">
+            <constraints>
+              <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <grid id="f62f2" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="7" column="2" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none" title="Grain Picker - Beta"/>
+            <children>
+              <component id="c6b85" class="javax.swing.JRadioButton" binding="grainPickerEnabledRadioButton">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <selected value="false"/>
+                  <text value="Enabled"/>
+                </properties>
+              </component>
+              <component id="d1332" class="javax.swing.JTextField" binding="grainPickerAmountTextField">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="112"/>
+                  <toolTipText value="A Number greater than 0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

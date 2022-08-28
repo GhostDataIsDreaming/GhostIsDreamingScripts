@@ -1,5 +1,6 @@
 package ghostdata.framework.behaviortree;
 
+import ghostdata.framework.Framework;
 import org.dreambot.api.methods.MethodProvider;
 
 import java.util.Collections;
@@ -41,19 +42,26 @@ public abstract class ParentNode implements Node {
 
     @Override
     public final Object tick() {
+        if (Framework.isDebug()) {
+            MethodProvider.log("======================="); //Separator between ticks
+        }
+
         return children.stream()
                 .filter(new Predicate<Node>() {
                     @Override
                     public boolean test(Node node) {
                         boolean is = node != null && node.isValid();
-//                        MethodProvider.log("Filtering " + node.getClass().getSimpleName() + " - " + is);
-
+                        if (Framework.isDebug()) {
+                            MethodProvider.log("Filtering " + node.getClass().getSimpleName() + " - " + is);
+                        }
                         return is;
                     }
                 })
                 .findAny()
                 .map(l -> {
-//                        MethodProvider.log("Ticking " + l.getClass().getSimpleName());
+                    if (Framework.isDebug()) {
+                        MethodProvider.log("Ticking " + l.getClass().getSimpleName());
+                    }
                         return l.tick();
                     })
                 .orElse(-1);

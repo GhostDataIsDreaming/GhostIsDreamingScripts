@@ -1,24 +1,21 @@
 package ghostdata.framwork.testing;
 
 import ghostdata.framework.FrameworkScript;
-import ghostdata.framework.behaviortree.BTree;
+import ghostdata.framework.behaviortree.BehaviorTree;
 import ghostdata.framework.behaviortree.premade.WalkToArea;
 import ghostdata.framework.behaviortree.premade.WithdrawSelectedItem;
 import ghostdata.framwork.testing.nodes.FiremakeNode;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
-import org.dreambot.api.methods.map.Map;
-import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
-
-import java.awt.*;
+import org.dreambot.core.Instance;
 
 
 @ScriptManifest(category = Category.FIREMAKING, name = "btFiremake", author = "GhostData", version = 0.0)
 public class btFiremake extends FrameworkScript {
-    public static BTree btTree;
+    public static BehaviorTree btTree;
 
     static Area GRAND_EXCHANGE = new Area(3142, 3512, 3184, 3470);;
 
@@ -26,17 +23,23 @@ public class btFiremake extends FrameworkScript {
 
     @Override
     public void onStart() {
-        btTree = new BTree();
+        btTree = new BehaviorTree();
     }
 
     @Override
     public int onLoop() {
         if (!btTree.hasBranches()) {
             firemakeNode = new FiremakeNode(false);
-            this.addChatListener(firemakeNode);
-            this.addPaintListener(firemakeNode);
+            Instance.getInstance().addEventListener(firemakeNode);
+//            this.addChatListener(firemakeNode);
+//            this.addPaintListener(firemakeNode);
 
             btTree.addNode(new WalkToArea(GRAND_EXCHANGE) {
+                @Override
+                public Object onArrive() {
+                    return -1;
+                }
+
                 @Override
                 public boolean isValid() {
                     return !GRAND_EXCHANGE.contains(Players.localPlayer().getTile());
