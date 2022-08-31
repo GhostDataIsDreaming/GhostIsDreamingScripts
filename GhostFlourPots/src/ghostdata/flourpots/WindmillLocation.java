@@ -3,8 +3,11 @@ package ghostdata.flourpots;
 import ghostdata.flourpots.vars.GrainLocation;
 import org.dreambot.api.methods.container.impl.bank.Bank;
 import org.dreambot.api.methods.container.impl.bank.BankLocation;
+import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.api.methods.skills.Skills;
 
 public enum WindmillLocation {
     WEST_OF_LUMBRIDGE(
@@ -38,7 +41,29 @@ public enum WindmillLocation {
             new Tile(3166, 3307, 2),
             new Tile(3166, 3305, 2),
             new Tile(3166, 3306)
-    )
+    ),
+    COOKS_GUILD(
+            "Cooks' Guild",
+            GrainLocation.COOKS_GUILD,
+//            ScriptStats.R.nextBoolean() ? BankLocation.VARROCK_WEST : BankLocation.GRAND_EXCHANGE,
+            BankLocation.COOKS_GUILD,
+            new Area(
+                    new Tile(3140, 3453, 0), new Tile(3138, 3451, 0), new Tile(3138, 3448, 0), new Tile(3142, 3444, 0),
+                    new Tile(3144, 3444, 0), new Tile(3146, 3446, 0), new Tile(3148, 3450, 0), new Tile(3148, 3452, 0),
+                    new Tile(3146, 3453, 0)
+            ),
+            new Tile(3142, 3152, 2),
+            new Tile(3141, 4153, 2),
+            new Tile(3140, 3559)) {
+            @Override
+            public boolean hasRequirements() {
+                try {
+                    return Skills.getRealLevel(Skill.COOKING) >= 32;
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        }
     ;
 
     private final String name;
@@ -104,5 +129,9 @@ public enum WindmillLocation {
 
     public Tile getFlourBinTile() {
         return flourBinTile;
+    }
+
+    public boolean hasRequirements() {
+        return true;
     }
 }

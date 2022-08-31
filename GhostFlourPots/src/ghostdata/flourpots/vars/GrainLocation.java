@@ -24,7 +24,9 @@ public enum GrainLocation {
             new Tile(3163, 3293, 0),
             new Tile(3165, 3299, 0),
             new Tile(3156, 3308, 0)
-    );
+    ),
+    COOKS_GUILD(new Area(3139, 3463, 3143, 3458))
+    ;
 
     public final Area area;
 

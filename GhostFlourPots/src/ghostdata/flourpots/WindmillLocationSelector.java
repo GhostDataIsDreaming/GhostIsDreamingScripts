@@ -45,7 +45,9 @@ public class WindmillLocationSelector {
         }
 
         for (WindmillLocation location : WindmillLocation.values()) {
-            comboBox1.addItem(location.getName());
+            if (location.hasRequirements()) {
+                comboBox1.addItem(location.getName());
+            }
         }
 
         startButton.addActionListener(new ActionListener() {
