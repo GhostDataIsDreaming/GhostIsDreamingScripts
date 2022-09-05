@@ -7,12 +7,16 @@ import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Area;
+import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.utilities.impl.Condition;
 
+import java.awt.*;
 import java.util.Random;
 
-public abstract class TilePathWalker implements Node {
+public abstract class TilePathWalker implements Node, PaintListener {
 
     private static final Random R = new Random();
 
@@ -23,14 +27,20 @@ public abstract class TilePathWalker implements Node {
     private int selectedPath = -1;
     private int pathIndex = 0;
 
+    private Color debugPaintColor;
+
     public TilePathWalker(Area area) {
         this.finalArea = area;
         this.availablePaths = null;
+
+//        Framework.addListener(this); // We don't have any availablePaths so why even add it?
     }
 
     public TilePathWalker(Area area, Tile[]... walkingPaths) {
         this.finalArea = area;
         this.availablePaths = walkingPaths;
+
+        Framework.addListener(this);
     }
 
     public final TilePathWalker reverseTilePath() {
@@ -38,8 +48,13 @@ public abstract class TilePathWalker implements Node {
         return this;
     }
 
+    public final TilePathWalker debugColor(Color color) {
+        this.debugPaintColor = color;
+        return this;
+    }
+
     @Override
-    public Object tick() {
+    public final Object tick() {
         if (finalArea.contains(Players.localPlayer().getTile())) {
             selectedPath = -1;
             return onArrival();
@@ -100,7 +115,7 @@ public abstract class TilePathWalker implements Node {
 
         for (int i = 0; i < tiles.length; i++) {
             Tile tile = tiles[i];
-            double distance = tile.distance(Players.localPlayer().getTile());
+            double distance = tile.distance(Players.getLocal().getTile());
 
             if (distance < closestDistance || closestDistance == -1) {
                 closestDistance = distance;
@@ -109,5 +124,30 @@ public abstract class TilePathWalker implements Node {
         }
 
         return closestIndex;
+    }
+
+    @Override
+    public final void onPaint(Graphics graphics) {
+        if (Framework.isDebug() && availablePaths != null) {
+            if (debugPaintColor != null) {
+                graphics.setColor(debugPaintColor);
+            }
+
+            Tile[] path = availablePaths[this.selectedPath];
+            if (path != null && path.length > 0) {
+                Tile closest = path[findClosestTileIndex(path)];
+                Tile destination = Walking.getDestination();
+                Tile current = Players.getLocal().getTile();
+
+                graphics.drawPolygon(current.getPolygon());
+
+                if (Map.isVisible(closest)) {
+                    graphics.drawPolygon(closest.getPolygon());
+                }
+                if (Map.isVisible(destination)) {
+                    graphics.drawPolygon(destination.getPolygon());
+                }
+            }
+        }
     }
 }
